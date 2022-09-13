@@ -29,12 +29,12 @@ public class UsersService { // Service에서는 권한,인증 체크 xx(Controll
 
 	public Users 로그인(LoginDto loginDto) { // username,password -> DTO로 받는다.
 		Users usersPS = usersDao.findByUsername(loginDto.getUsername());
-		// IF문 usersPS 와 dto.getPassword()비교
-		if (usersPS.getPassword().equals(usersPS.getPassword()))
+		if(usersPS==null) return null;
+		//usersPS가 null이면 .getPassword() 실행못하기 때문에 미리 걸러줌
+		else if (usersPS.getPassword().equals(loginDto.getPassword()))
 			return usersPS;
-		else
+		else 
 			return null;
-
 	}
 
 	public void 회원수정(Integer id, UpdateDto updateDto) { // Integer id,dto(password,email) 을 받는다

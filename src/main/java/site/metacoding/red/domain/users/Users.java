@@ -3,10 +3,12 @@ package site.metacoding.red.domain.users;
 import java.sql.Timestamp;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.red.web.dto.request.users.JoinDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
 
+@NoArgsConstructor
 @Setter
 @Getter
 public class Users {

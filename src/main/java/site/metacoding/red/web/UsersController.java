@@ -41,10 +41,12 @@ public class UsersController {
 	}
 	@PostMapping("/login")
 	public @ResponseBody String login(LoginDto loginDto) {
+		
 		Users principal = usersService.로그인(loginDto);
+		
 		if(principal==null) { //로그인이 안됐다면
 			return Script.back("아이디 혹은 비밀번호가 틀렸습니다");
-			//msg는 꼭 필요할 때만 띄어주자
+
 		}
 		session.setAttribute("principal", principal);
 		return Script.href("/");
