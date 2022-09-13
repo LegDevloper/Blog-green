@@ -3,14 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.red.domain.users.UsersDao">
-	
-	<insert id="insert">
-		INSERT INTO users(id, username, password, email, createdAt) 
-		VALUES(users_seq.nextval, #{username}, #{password}, #{email}, sysdate)
-	</insert>
 
+	<insert id="insert">
+		INSERT INTO users(username, password, email,
+		createdAt)
+		VALUES(#{username},
+		#{password}, #{email}, NOW())
+	</insert>
+	<select id="findByUsername" resultType="site.metacoding.red.domain.users.Users">
+		SELECT * FROM users WHERE username = #{username}
+	</select>
 	<select id="findById" resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE id = #{id}
 	</select>
-
+	<select id= "findAll" resultType="site.metacoding.red.domain.users.Users">
+		SELECT * FROM users;
+	</select>
+	<delete id="deleteById">
+		DELETE FROM users WHERE id=#{id}
+	</delete>
+	<update id="incrementInit">
+		ALTER TABLE users AUTO_INCREMENT = #{id};
+	</update>
+	<update id="update">
+		UPDATE users SET password=#{password}, email=#{email} WHERE id=#{id}
+	</update>
+	
 </mapper>

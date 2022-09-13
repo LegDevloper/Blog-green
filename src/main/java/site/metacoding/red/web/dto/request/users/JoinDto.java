@@ -1,0 +1,22 @@
+package site.metacoding.red.web.dto.request.users;
+
+import lombok.Getter;
+import lombok.Setter;
+import site.metacoding.red.domain.users.Users;
+
+@Getter
+@Setter
+public class JoinDto {
+	private String username;
+	private String password;
+	private String email;
+	
+	public Users toEntity() {
+		Users users = new Users();
+		users.setUsername(this.username);
+		users.setPassword(this.password);
+		users.setEmail(this.email);
+		
+		return users;
+	}
+}
