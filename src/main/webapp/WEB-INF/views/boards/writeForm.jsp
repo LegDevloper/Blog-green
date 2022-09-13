@@ -5,10 +5,10 @@
 <div class="container">
 	<form action="/boards/write" method="post">
 		<div class="mb-3 mt-3">
-			<input type="text" class="form-control" placeholder="Enter title" name="title">
+			<input type="text" class="form-control" placeholder="Enter title" name="title" required="required">
 		</div>
 		<div class="mb-3">
-			<textarea class="form-control" rows="8" name="content"></textarea>
+			<textarea class="form-control" rows="8" name="content" required="required"></textarea>
 		</div>
 		<button type="submit" class="btn btn-primary">글쓰기완료</button>
 	</form>

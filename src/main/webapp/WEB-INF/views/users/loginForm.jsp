@@ -8,12 +8,12 @@
 		<div class="mb-3 mt-3">
 			<input
 				type="text" class="form-control"
-				placeholder="Enter username" name="username">
+				placeholder="Enter username" name="username" required="required"> 
 		</div>
 		<div class="mb-3">
 			<input
 				type="password" class="form-control" 
-				placeholder="Enter password" name="password">
+				placeholder="Enter password" name="password" required="required">
 		</div>
 		<button type="submit" class="btn btn-primary">로그인</button>
 	</form>
