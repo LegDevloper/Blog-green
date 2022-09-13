@@ -32,7 +32,7 @@ public class UsersController {
 	@PostMapping("/join")
 	public String join(JoinDto joinDto) {
 		usersService.회원가입(joinDto);
-		return "direct:/loginForm";
+		return "redirect:/loginForm";
 	}
 	
 	@GetMapping("/loginForm")
@@ -59,6 +59,12 @@ public class UsersController {
 		
 		return "users/updateForm"; //updateForm만들기(회원탈퇴 버튼을 만든다)
 	}
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/loginForm";
+	}
+	//수정,삭제는 js로 
 	@PutMapping("/users/{id}")
 	public String update(@PathVariable Integer id,UpdateDto updateDto) {
 		usersService.회원수정(id, updateDto);
@@ -73,11 +79,7 @@ public class UsersController {
 		return Script.href("/loginForm", "회원탈퇴가 완료되었습니다");
 	}
 	
-	@GetMapping("/logout")
-	public String logout() {
-		session.invalidate();
-		return "redirect:/loginForm";
-	}
+	
 	
 	
 	

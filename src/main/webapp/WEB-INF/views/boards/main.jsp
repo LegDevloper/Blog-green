@@ -24,22 +24,26 @@
 			</tr>
 		</thead>
 		<tbody>
-
-			<tr>
-				<td>1</td>
-				<td><a href="#">제목입니다</a></td>
-				<td>ssar</td>
-			</tr>
-
-
+			<c:forEach var="boards" items="${pagingdto.mainDtos}">
+				<tr>
+					<td>${boards.id}</td>
+					<td><a href="/boards/${boards.id}">${boards.title}</a></td>
+					<td>${boards.username}</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
-			<li class='page-item disabled'><a class="page-link" href="#">Prev</a></li>
-			<li class='page-item'><a class='page-link' href="#">1</a></li>
-			<li class='page-item'><a class="page-link" href="#">Next</a></li>
+			<li class="page-item ${(pagingdto.first)?'disabled':''}"><a class="page-link"
+				href="?page=${(pagingdto.currentPage)-1}&keyword=${pagingdto.keyword}">Previous</a></li>
+			<c:forEach var="page" begin="${pagingdto.startPageNum}" end="${pagingdto.lastPageNum}" step="1">
+				<li class="page-item ${(pagingdto.currentPage)==(page-1)?'active':''}"><a class="page-link"
+					href="/?page=${page-1}&keyword=${pagingdto.keyword}">${page}</a></li>
+			</c:forEach>
+			<li class="page-item ${(pagingdto.last)?'disabled':''}"><a class="page-link"
+				href="?page=${(pagingdto.currentPage)+1}&keyword=${pagingdto.keyword}">Next</a></li>
 		</ul>
 	</div>
 
