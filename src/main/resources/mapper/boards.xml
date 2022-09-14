@@ -17,9 +17,10 @@
 		users
 		u
 		ON b.usersId=u.id
-		<if test="keyword != null">
-			WHERE title like '%'||#{keyword}||'%'
-		</if>
+		<choose>
+			<when test="keyword!=null">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
+			<otherwise></otherwise>
+		</choose>
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
 		FETCH NEXT
@@ -36,10 +37,11 @@
 		FROM(
 		SELECT COUNT(*) totalCount, CEIL(COUNT(*)/3) totalPage, #{page} currentPage, 0
 		first, 0 last FROM boards
+		<choose>
+			<when test="keyword!=null">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
+			<otherwise></otherwise>
+		</choose>
 
-
-		<if test="keyword!=null">
-			WHERE title LIKE '%'||#{keyword}||'%'</if>
 		) A
 	</select>
 

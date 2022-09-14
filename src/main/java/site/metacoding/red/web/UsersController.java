@@ -64,7 +64,7 @@ public class UsersController {
 		session.invalidate();
 		return "redirect:/loginForm";
 	}
-	//수정,삭제는 js로 
+	//수정,삭제는 JavaScript로 
 	@PutMapping("/users/{id}")
 	public String update(@PathVariable Integer id,UpdateDto updateDto) {
 		usersService.회원수정(id, updateDto);
