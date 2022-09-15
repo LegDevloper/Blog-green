@@ -51,10 +51,7 @@ public class BoardsService {
 		boardsDao.deleteById(id); // 핵심로직
 	}
 
-	public void 게시글쓰기(WriteDto writeDto) {
-		Users principal = (Users) session.getAttribute("principal");
-		Integer usersId = principal.getId();
-
-		boardsDao.insert(writeDto.toEntity(usersId));
+	public void 게시글쓰기(WriteDto writeDto, Users principal) {
+		boardsDao.insert(writeDto.toEntity(principal.getId()));
 	}
 }

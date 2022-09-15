@@ -1,26 +1,30 @@
 package site.metacoding.red.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-
+import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
+import site.metacoding.red.web.dto.response.CMRespDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
 @Controller
 public class BoardsController {
 	private final BoardsService boardsService;
-
+	private final HttpSession session;
+	
 	@DeleteMapping("/boards/{id}")
 	public @ResponseBody String deleteById(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
@@ -47,11 +51,11 @@ public class BoardsController {
 		return "/boards/writeForm";
 	}
 
-	@PostMapping("/boards/write")
-	public String write(WriteDto writeDto) {
-		boardsService.게시글쓰기(writeDto);
-
-		return "redirect:/";
+	@PutMapping("/boards/write")
+	public @ResponseBody CMRespDto<?> write(@RequestBody WriteDto writeDto) {
+		Users principal = (Users)session.getAttribute("principal");
+		boardsService.게시글쓰기(writeDto, principal);
+		return new CMRespDto<>(1,"글쓰기완료",null);
 	}
 
 	@GetMapping({ "/", "/boards" })

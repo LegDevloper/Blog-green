@@ -35,7 +35,7 @@ public class UsersService { // Service에서는 권한,인증 체크 xx(Controll
 			return null;
 	}
 
-	public void 회원수정(Integer id, UpdateDto updateDto) { // Integer id,dto(password,email) 을 받는다
+	public Users 회원수정(Integer id, UpdateDto updateDto) { // Integer id,dto(password,email) 을 받는다
 		// 영속화(id로 select)
 		Users usersPS = usersDao.findById(id);
 
@@ -43,6 +43,8 @@ public class UsersService { // Service에서는 권한,인증 체크 xx(Controll
 		usersPS.update(updateDto);
 		// update실행
 		usersDao.update(usersPS);
+		
+		return usersPS;
 	}
 
 	@Transactional(rollbackFor = RuntimeException.class) // 자동롤백

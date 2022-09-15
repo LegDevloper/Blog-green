@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.UsersService;
-import site.metacoding.red.util.Script;
 import site.metacoding.red.web.dto.request.users.JoinDto;
 import site.metacoding.red.web.dto.request.users.LoginDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
@@ -80,20 +79,20 @@ public class UsersController {
 		return "users/updateForm"; // updateForm만들기(회원탈퇴 버튼을 만든다)
 	}
 
-	// ====================================================================
-	// 수정,삭제는 JavaScript로
+	
 	@PutMapping("/users/{id}")
-	public String update(@PathVariable Integer id, UpdateDto updateDto) {
-		usersService.회원수정(id, updateDto);
+	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
+		Users usersPS = usersService.회원수정(id, updateDto);
+		session.setAttribute("principal", usersPS); //세션동기화(덮어쓴다)
 
-		return "redirect:/users/" + id;
+		return new CMRespDto<>(1,"회원수정성공",null);
 	}
 
 	@DeleteMapping("/users/{id}")
-	public @ResponseBody String delete(@PathVariable Integer id) {
+	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
-
-		return Script.href("/loginForm", "회원탈퇴가 완료되었습니다");
+		session.invalidate();
+		return new CMRespDto<>(1,"탈퇴완료",null);
 	}
 
 }
