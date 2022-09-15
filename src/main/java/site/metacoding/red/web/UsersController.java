@@ -26,71 +26,74 @@ import site.metacoding.red.web.dto.response.CMRespDto;
 public class UsersController {
 	private final UsersService usersService;
 	private final HttpSession session;
-	
-	//중복체크 컨트롤러
+
+	// 중복체크 컨트롤러
 	@GetMapping("/users/usernameSameCheck")
-	public @ResponseBody CMRespDto<Boolean> usernameSameCheck(String username){ //class응답하면 json
-		boolean isSame = usersService.아이디중복확인(username); //true:중복
-		return new CMRespDto<>(1,"통신성공",isSame);
+	public @ResponseBody CMRespDto<Boolean> usernameSameCheck(String username) { // class응답하면 json
+		boolean isSame = usersService.아이디중복확인(username); // true:중복
+		return new CMRespDto<>(1, "통신성공", isSame);
 	}
+
+	// 회원가입 컨트롤러
 	@GetMapping("/joinForm")
 	public String joinForm() {
 		return "users/joinForm";
 	}
+
 	@PostMapping("/join")
 	public @ResponseBody CMRespDto<?> join(@RequestBody JoinDto joinDto) {
 		usersService.회원가입(joinDto);
-		return new CMRespDto<>(1,"회원가입성공",null);
+		return new CMRespDto<>(1, "회원가입성공", null);
 	}
-	
+
+	// 로그인 컨트롤러
 	@GetMapping("/loginForm")
-	public String loginForm() { //쿠키(cookie)
+	public String loginForm() { // 쿠키(cookie)
 		return "users/loginForm";
 	}
-	@PostMapping("/login")
-	public @ResponseBody String login(LoginDto loginDto) {
-		
-		Users principal = usersService.로그인(loginDto);
-		
-		if(principal==null) { //로그인이 안됐다면
-			return Script.back("아이디 혹은 비밀번호가 틀렸습니다");
 
+	@PostMapping("/login")
+	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
+
+		Users principal = usersService.로그인(loginDto);
+
+		if (principal == null) { // 로그인이 안됐다면
+			return new CMRespDto<>(-1,"로그인 실패",null);
 		}
 		session.setAttribute("principal", principal);
-		return Script.href("/");
+		return new CMRespDto<>(1,"로그인성공",null);
 	}
-	
-	@GetMapping("/users/{id}")
-	public String updateForm(@PathVariable Integer id, Model model) {
-		Users usersPS = usersService.회원정보보기(id);
-		model.addAttribute("users",usersPS);
-		
-		return "users/updateForm"; //updateForm만들기(회원탈퇴 버튼을 만든다)
-	}
+
+	// 로그아웃 컨트롤러
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/loginForm";
 	}
-	
-	//====================================================================
-	//수정,삭제는 JavaScript로 
-	@PutMapping("/users/{id}")
-	public String update(@PathVariable Integer id,UpdateDto updateDto) {
-		usersService.회원수정(id, updateDto);
-		
-		return "redirect:/users/"+id;
+
+	// 회원정보 보는 컨트롤러
+	@GetMapping("/users/{id}")
+	public String updateForm(@PathVariable Integer id, Model model) {
+		Users usersPS = usersService.회원정보보기(id);
+		model.addAttribute("users", usersPS);
+
+		return "users/updateForm"; // updateForm만들기(회원탈퇴 버튼을 만든다)
 	}
-	
+
+	// ====================================================================
+	// 수정,삭제는 JavaScript로
+	@PutMapping("/users/{id}")
+	public String update(@PathVariable Integer id, UpdateDto updateDto) {
+		usersService.회원수정(id, updateDto);
+
+		return "redirect:/users/" + id;
+	}
+
 	@DeleteMapping("/users/{id}")
 	public @ResponseBody String delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
-		
+
 		return Script.href("/loginForm", "회원탈퇴가 완료되었습니다");
 	}
-	
-	
-	
-	
-	
+
 }

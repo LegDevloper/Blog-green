@@ -7,6 +7,7 @@
 	<form>
 		<div class="mb-3 mt-3">
 			<input id="username" type="text" class="form-control" placeholder="Enter username">
+			
 			<button id="btnUsernameSameCheck" class="btn btn-warning" type="button">유저네임 중복체크</button>
 		</div>
 		<div class="mb-3">
