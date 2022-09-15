@@ -48,7 +48,6 @@ public class BoardsService {
 	} // DTO추가
 
 	public void 게시글삭제하기(Integer id) {
-		Boards boardsPS = boardsDao.findById(id);
 		boardsDao.deleteById(id); // 핵심로직
 	}
 

@@ -17,7 +17,7 @@ GRANT ALL PRIVILEGES ON greendb.* TO 'green'@'%';
 ```sql
 create table users(
     id int primary KEY AUTO_INCREMENT,
-    username varchar(20),
+    username varchar(20) UNIQUE,
     password varchar(20),
     email varchar(50),
     createdAt TIMESTAMP
@@ -38,4 +38,12 @@ insert into users(username, password, email, createdAt) values('ssar', '1234', '
 insert into users(username, password, email, createdAt) values('cos', '1234', 'cos@nate.com', NOW());
 insert into users(username, password, email, createdAt) values('hong', '1234', 'hong@nate.com', NOW());
 COMMIT;
+```
+
+### UTF8 설정
+- MariaDB설치시 UF8설정을 안했다면 아래 코드도 쿼리문에 추가
+
+```sql
+ALTER TABLE users CONVERT TO CHARACTER SET UTF8;
+ALTER TABLE boards CONVERT TO CHARACTER SET utf8;
 ```

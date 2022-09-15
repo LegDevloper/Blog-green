@@ -1,12 +1,9 @@
 package site.metacoding.red.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.boards.BoardsDao;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.domain.users.UsersDao;
@@ -23,24 +20,25 @@ public class UsersService { // Service에서는 권한,인증 체크 xx(Controll
 
 	public void 회원가입(JoinDto joinDto) { // username,password,email -> DTO로 받는다
 		Users usersPS = joinDto.toEntity();
-		
+
 		usersDao.insert(usersPS);
 	}
 
 	public Users 로그인(LoginDto loginDto) { // username,password -> DTO로 받는다.
 		Users usersPS = usersDao.findByUsername(loginDto.getUsername());
-		if(usersPS==null) return null;
-		//usersPS가 null이면 .getPassword() 실행못하기 때문에 미리 걸러줌
+		if (usersPS == null)
+			return null;
+		// usersPS가 null이면 .getPassword() 실행못하기 때문에 미리 걸러줌
 		else if (usersPS.getPassword().equals(loginDto.getPassword()))
 			return usersPS;
-		else 
+		else
 			return null;
 	}
 
 	public void 회원수정(Integer id, UpdateDto updateDto) { // Integer id,dto(password,email) 을 받는다
 		// 영속화(id로 select)
 		Users usersPS = usersDao.findById(id);
-	
+
 		// 영속화 객체 변경
 		usersPS.update(updateDto);
 		// update실행
@@ -51,19 +49,22 @@ public class UsersService { // Service에서는 권한,인증 체크 xx(Controll
 	public void 회원탈퇴(Integer id) {// Integer id(usersId)
 		// 내부적으로 2개의 Trancsaction 이 실행되는데
 		// 어노테이션으로 1개의 Trancsaction 으로 묶어줌
-		
+
 		usersDao.deleteById(id);
-		
+
 		usersDao.incrementInit(id);
-		
+
 		boardsDao.updateToNull(id);
-		
-	} 
+
+	}
+
 	public boolean 아이디중복확인(String username) { //
 		Users usersPS = usersDao.findByUsername(username);
 		// if문사용 (있으면 true 없으면 false)
-		if(usersPS!=null) return true; //중복안댐
-		else return false; //중복
+		if (usersPS != null) 
+			return true; // 중복안댐
+		else
+			return false; // 중복
 	}
 
 	public Users 회원정보보기(Integer id) {

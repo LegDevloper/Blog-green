@@ -36,14 +36,23 @@
 
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
-			<li class="page-item ${(pagingdto.first)?'disabled':''}"><a class="page-link"
-				href="?page=${(pagingdto.currentPage)-1}&keyword=${pagingdto.keyword}">Previous</a></li>
-			<c:forEach var="page" begin="${pagingdto.startPageNum}" end="${pagingdto.lastPageNum}" step="1">
-				<li class="page-item ${(pagingdto.currentPage)==(page-1)?'active':''}"><a class="page-link"
-					href="/?page=${page-1}&keyword=${pagingdto.keyword}">${page}</a></li>
-			</c:forEach>
-			<li class="page-item ${(pagingdto.last)?'disabled':''}"><a class="page-link"
-				href="?page=${(pagingdto.currentPage)+1}&keyword=${pagingdto.keyword}">Next</a></li>
+			<c:choose>
+				<c:when test="${pagingdto.totalPage == 0}">
+					<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+					<li class="page-item disabled"><a class="page-link" href="">Next</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item ${(pagingdto.first)?'disabled':''}"><a class="page-link"
+						href="?page=${(pagingdto.currentPage)-1}&keyword=${pagingdto.keyword}">Previous</a></li>
+					<c:forEach var="page" begin="${pagingdto.startPageNum}" end="${pagingdto.lastPageNum}" step="1">
+						<li class="page-item ${(pagingdto.currentPage)==(page-1)?'active':''}"><a class="page-link"
+							href="/?page=${page-1}&keyword=${pagingdto.keyword}">${page}</a></li>
+					</c:forEach>
+					<li class="page-item ${(pagingdto.last)?'disabled':''}"><a class="page-link"
+						href="?page=${(pagingdto.currentPage)+1}&keyword=${pagingdto.keyword}">Next</a></li>
+				</c:otherwise>
+			</c:choose>
+
 		</ul>
 	</div>
 
