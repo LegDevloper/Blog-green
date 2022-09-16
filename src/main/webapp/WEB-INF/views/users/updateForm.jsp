@@ -21,49 +21,8 @@
 	</form>
 </div>
 
-<script>
-	$("#btnUpdate").click(()=>{
-		let data = { //Object 생성
-				password:$("#password").val(),
-				email:$("#email").val(),
-		};
-		
-		let id = $("#id").val();
-		
-		$.ajax("/users/"+id,{
-			type:"PUT",
-			dataType:"json",
-			data:JSON.stringify(data), //data는 js오브젝트기 때문에 json으로 변경후 전송
-			headers:{
-				"Content-Type" : "application/json; charset=utf-8"
-			}
-		}).done((res)=>{
-			if(res.code==1){ //통신이 성공했으면
-				alert("수정완료!");
-				location.reload();
-			}
-			else{
-				alert("수정실패");
-			}
-		});
-	});
-	$("#btnDelete").click(()=>{
+<script src="/js/users.js">
 	
-		let id = $("#id").val();
-		
-		$.ajax("/users/"+id,{
-			type:"DELETE",
-			dataType:"json",
-		}).done((res)=>{
-			if(res.code==1){ 
-				alert("회원탈퇴완료!");
-				location.href="/";
-			}
-			else{
-				alert("회원탈퇴실패");
-			}
-		});
-	});
 </script>
 
 <%@ include file="../layout/footer.jsp"%>
