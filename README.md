@@ -6,6 +6,11 @@
 - Users 엔티티 필요
 - UsersDao 인터페이스 생성 필요
 
+### 페이징 갯수 변경
+- boards.xml 에 paging쿼리문 ceil()부분
+- boards.xml 에 findAll쿼리문 FETCH NEXT부분
+- BoardsService.java에 startNum 변경
+
 ### MariaDB 사용자 생성 및 권한 주기
 ```sql
 CREATE USER 'green'@'%' IDENTIFIED BY 'green1234';

@@ -11,7 +11,8 @@
 		UPDATE boards SET usersId = null WHERE usersId=#{id}
 	</update>
 	<select id="findAll" resultType="site.metacoding.red.web.dto.response.boards.MainDto">
-		SELECT b.id,b.title,u.username
+		SELECT b.id,b.title,
+		if(u.username is null,'익명', u.username) AS username
 		FROM boards b
 		LEFT OUTER JOIN
 		users
@@ -24,7 +25,7 @@
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
 		FETCH NEXT
-		3 ROWS ONLY
+		5 ROWS ONLY
 	</select>
 	<select id="paging" resultType="site.metacoding.red.web.dto.response.boards.PagingDto">
 		SELECT
@@ -35,7 +36,7 @@
 		(case currentPage when
 		totalPage-1 then 1 ELSE 0 END) LAST
 		FROM(
-		SELECT COUNT(*) totalCount, CEIL(COUNT(*)/3) totalPage, #{page} currentPage, 0
+		SELECT COUNT(*) totalCount, CEIL(COUNT(*)/5) totalPage, #{page} currentPage, 0
 		first, 0 last FROM boards
 		<choose>
 			<when test="keyword!=null">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>

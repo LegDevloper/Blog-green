@@ -19,14 +19,14 @@ import site.metacoding.red.web.dto.response.boards.PagingDto;
 @Service
 public class BoardsService {
 	private final BoardsDao boardsDao;
-	private final HttpSession session;
+
 
 	public PagingDto 게시글목록보기(Integer page, String keyword) {
 		if (page == null) {
 			page = 0;
 		}
 		
-		int startNum = page * 3;
+		int startNum = page * 5;
 		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword);
 		PagingDto pagingDto = boardsDao.paging(page, keyword);
 	
@@ -36,10 +36,11 @@ public class BoardsService {
 		return pagingDto;
 
 	}
-
+	
 	public Boards 게시글상세보기(Integer id) {
 		return boardsDao.findById(id);
 	}
+	
 
 	public void 게시글수정하기(Integer id, UpdateDto updateDto) {
 		Boards boardsPS = boardsDao.findById(id);

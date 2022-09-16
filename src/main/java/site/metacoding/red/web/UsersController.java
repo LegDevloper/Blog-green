@@ -59,26 +59,20 @@ public class UsersController {
 			if(cookie.getName().equals("username")) {
 				model.addAttribute("username",cookie.getValue());
 			}
-			System.out.println("===================");
-			System.out.println(cookie.getName());
-			System.out.println(cookie.getValue());
-			System.out.println("===================");
 		}
-		
 		return "users/loginForm";
 	}
-
 	@PostMapping("/login")
 	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
 	
-		if(loginDto.getRemember()) {
+		if(loginDto.isRemember()) {
 			Cookie cookie = new Cookie("username",loginDto.getUsername());
 			cookie.setMaxAge(60*60*24); //쿠키가 저장되있는 시간
 			response.addCookie(cookie);
 		
-		}else {
+		}else{
 			Cookie cookie = new Cookie("usernmae",null);
-			cookie.setMaxAge(60*60*24);
+			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
 		Users principal = usersService.로그인(loginDto);

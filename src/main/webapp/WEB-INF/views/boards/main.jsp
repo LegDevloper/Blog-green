@@ -28,7 +28,6 @@
 				<tr>
 					<td>${boards.id}</td>
 					<td><a href="/boards/${boards.id}">${boards.title}</a></td>
-					<c:if test="${boards.username==null}"><td>탈퇴회원</td></c:if>
 					<td>${boards.username}</td>
 				</tr>
 			</c:forEach>

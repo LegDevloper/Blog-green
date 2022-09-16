@@ -10,33 +10,41 @@
 		<div class="mb-3">
 			<textarea id="content" class="form-control" rows="8" required="required"></textarea>
 		</div>
-		<button id="btnWrite" type="button" class="btn btn-primary">글쓰기완료</button>
+		<button id="btnSave" type="button" class="btn btn-primary">글쓰기완료</button>
 
 	</form>
 </div>
 
 <script>
-
-	$("#btnWrite").click(()=>{
+	$("#btnSave").click(()=>{
+		save();
+	});
+	
+	function save(){
 		let data = {
-				title:$("#title").val(),
-				content:$("#content").val()
+		        title:$("#title").val(),
+		        content:$("#content").val()
 		};
-		$.ajax("/boards/write",{
-			type:"PUT",
-			dataType:"json",
-			data:JSON.stringify(data), //data는 js오브젝트기 때문에 json으로 변경후 전송
-			headers:{
-				"Content-Type" : "application/json; charset=utf-8"
-			}
+		$.ajax("/boards",{
+		    type:"POST",
+		    dataType:"json",
+		    data:JSON.stringify(data),
+		    headers:{
+		        "Content-Type" : "application/json; charset=utf-8"
+		    }
 		}).done((res)=>{
-			if(res.code==1){ //통신이 성공했으면
-				alert("글쓰기 완료!");
-				location.href="/";
-			}
-			else alert("글쓰기실패!")
-			
+		    if(res.code==1){ 
+		        alert("글쓰기 완료!");
+		        location.href="/";
+		    }
+		    else alert("글쓰기실패!")
+		    
 		});
+	}
+</script>
+<script>
+	$('#content').summernote({
+		height : 400
 	});
 </script>
 <%@ include file="../layout/footer.jsp"%>
