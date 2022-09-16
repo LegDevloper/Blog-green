@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,9 @@ import site.metacoding.red.web.dto.response.CMRespDto;
 public class UsersController {
 	private final UsersService usersService;
 	private final HttpSession session;
+	private final HttpServletResponse response;
+
+	
 
 	// 중복체크 컨트롤러
 	@GetMapping("/users/usernameSameCheck")
@@ -47,13 +53,34 @@ public class UsersController {
 
 	// 로그인 컨트롤러
 	@GetMapping("/loginForm")
-	public String loginForm() { // 쿠키(cookie)
+	public String loginForm(Model model, HttpServletRequest request) { // 쿠키(cookie)
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("username")) {
+				model.addAttribute("username",cookie.getValue());
+			}
+			System.out.println("===================");
+			System.out.println(cookie.getName());
+			System.out.println(cookie.getValue());
+			System.out.println("===================");
+		}
+		
 		return "users/loginForm";
 	}
 
 	@PostMapping("/login")
 	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
-
+	
+		if(loginDto.getRemember()) {
+			Cookie cookie = new Cookie("username",loginDto.getUsername());
+			cookie.setMaxAge(60*60*24); //쿠키가 저장되있는 시간
+			response.addCookie(cookie);
+		
+		}else {
+			Cookie cookie = new Cookie("usernmae",null);
+			cookie.setMaxAge(60*60*24);
+			response.addCookie(cookie);
+		}
 		Users principal = usersService.로그인(loginDto);
 
 		if (principal == null) { // 로그인이 안됐다면

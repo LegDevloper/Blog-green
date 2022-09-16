@@ -8,7 +8,7 @@
 	<form>
 		<input id="id" type="hidden" value="${users.id}">
 		<div class="mb-3 mt-3">
-			<input type="text" class="form-control" placeholder="Enter password" value="${users.username}" readonly="readonly">
+			<input type="text" class="form-control" placeholder="Enter password" value="${users.username}" readonly="readonly" >
 		</div>
 		<div class="mb-3">
 			<input id="password" type="password" class="form-control" placeholder="Enter password" value="${users.password}">
