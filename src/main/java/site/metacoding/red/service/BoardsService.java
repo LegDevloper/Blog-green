@@ -41,7 +41,7 @@ public class BoardsService {
 		return boardsDao.findById(id);
 	}
 	
-
+	//
 	public void 게시글수정하기(Integer id, UpdateDto updateDto) {
 		Boards boardsPS = boardsDao.findById(id);
 		boardsPS.updateBoards(updateDto);

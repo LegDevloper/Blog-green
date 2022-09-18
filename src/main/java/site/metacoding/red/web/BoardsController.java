@@ -35,18 +35,21 @@ public class BoardsController {
 		model.addAttribute("boards",id);
 		return new CMRespDto<>(1,"삭제성공",null);
 	}
+	
+	
 	//=========update
-	@GetMapping("/boards/updateForm")
-	public String updateForm() {
-		
-		
+	@GetMapping("/boards/updateForm/{id}")
+	public String updateForm(@PathVariable Integer id, Model model) {
+		model.addAttribute("boards",id);
 		return "/boards/updateForm";
 	}
-	@PutMapping("boards/{id}")
-	public @ResponseBody String update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
+	@PutMapping("boards/update/{id}")
+	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		boardsService.게시글수정하기(id, updateDto);
-		return "redirect:/boards/" + id;
+		return new CMRespDto<>(1,"수정성공",null);
 	}
+	
+	
 	
 	//==========write
 	@GetMapping("/boards/writeForm")
@@ -59,6 +62,8 @@ public class BoardsController {
 		boardsService.게시글쓰기(writeDto, principal);
 		return new CMRespDto<>(1,"글쓰기완료",null);
 	}
+	
+	
 	//==========read
 	@GetMapping({ "/", "/boards" })
 	public String boardsList(Integer page, String keyword, Model model) {
@@ -68,7 +73,6 @@ public class BoardsController {
 	}
 	@GetMapping("/boards/{id}")
 	public String boardsDetail(@PathVariable Integer id, Model model) {
-
 		model.addAttribute("boards", boardsService.게시글상세보기(id));
 		return "/boards/detail";
 	}

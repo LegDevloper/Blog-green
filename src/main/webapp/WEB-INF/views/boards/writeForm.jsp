@@ -15,32 +15,8 @@
 	</form>
 </div>
 
-<script>
-	$("#btnSave").click(()=>{
-		save();
-	});
+<script src="/js/boards.js">
 	
-	function save(){
-		let data = {
-		        title:$("#title").val(),
-		        content:$("#content").val()
-		};
-		$.ajax("/boards",{
-		    type:"POST",
-		    dataType:"json",
-		    data:JSON.stringify(data),
-		    headers:{
-		        "Content-Type" : "application/json; charset=utf-8"
-		    }
-		}).done((res)=>{
-		    if(res.code==1){ 
-		        alert("글쓰기 완료!");
-		        location.href="/";
-		    }
-		    else alert("글쓰기실패!")
-		    
-		});
-	}
 </script>
 <script>
 	$('#content').summernote({

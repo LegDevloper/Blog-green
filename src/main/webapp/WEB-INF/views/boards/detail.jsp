@@ -4,9 +4,11 @@
 
 <div class="container">
 	<br /> <br />
-	<div class="d-flex justify-content-between" >
+	<div class="d-flex justify-content-between">
 		<h3>${boards.title}</h3>
-		<div>좋아요 수 : 10<i id="iconHeart" class="fa-regular fa-heart"></i></div>
+		<div>
+			좋아요 수 : 10<i id="iconHeart" class="fa-regular fa-heart"></i>
+		</div>
 		<!-- <div>좋아요 수 : 10<i class="fa-solid fa-heart"></i></div> -->
 	</div>
 	<br />
@@ -14,7 +16,8 @@
 	<hr />
 	<div class="d-flex justify-content-end">
 
-		<input type="hidden" value="${boards.id}" id="id"> <a href="/boards/updateForm" class="btn btn-warning">수정하러가기</a>
+		<input type="hidden" value="${boards.id}" id="id"> <a
+			href="/boards/updateForm/${boards.id}" class="btn btn-warning">수정하러가기</a>
 
 		<form>
 			<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
@@ -23,7 +26,11 @@
 	<br />
 </div>
 <script>
+
 	
+	
+	
+	/** 좋아요기능
 	$("#iconHeart").click((event)=>{
 		let check=$("#iconHeart").hasClass("fa-regular");
 		
@@ -39,6 +46,7 @@
 		}
 
 	});
+	 */
 </script>
 
 <script src="/js/boards.js"></script>

@@ -5,37 +5,27 @@
 <div class="container">
 
 	<form>
-	<h2>${boardsID.usersId}</h2>
-		<input type="hidden" id="id" value="">
+		<input type="hidden" id="id" value="${boards}">
 		<div class="mb-3 mt-3">
 			<input id="title" type="text" class="form-control" placeholder="Enter title" required="required">
 		</div>
+		<hr />
 		<div class="mb-3">
-			<textarea id="content" class="form-control" rows="8" required="required" >내용을 입력하시오</textarea>
+			<textarea id="content" class="form-control" rows="8" required="required"></textarea>
 		</div>
 		<button id="btnUpdate" type="button" class="btn btn-primary">수정완료</button>
 	</form>
 </div>
 
+<script src="/js/boards.js"></script>
 <script>
-	$("#btnUpdate").click(()=>{
-		update();
+	$('#content').summernote({
+		height : 400
 	});
-	function update(){
-		$.ajax("/join", {
-			type: "POST",
-			dataType: "json",
-			data: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}).done((res) => {
-			if (res.code == 1) {
-				location.href = "/loginForm";
-			}
+</script>
 
-		});
-	}
+
+
 </script>
 <%@ include file="../layout/footer.jsp"%>
 
