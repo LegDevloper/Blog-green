@@ -20,6 +20,7 @@ GRANT ALL PRIVILEGES ON greendb.* TO 'green'@'%';
 
 ### 테이블 생성
 ```sql
+--유저테이블
 create table users(
     id int primary KEY AUTO_INCREMENT,
     username varchar(20) UNIQUE,
@@ -27,13 +28,21 @@ create table users(
     email varchar(50),
     createdAt TIMESTAMP
 );
-
+--게시물테이블
 create table boards(
     id int primary KEY AUTO_INCREMENT,
     title varchar(150),
     content longtext,
     usersId int,
     createdAt TIMESTAgreendbboardsMP
+);
+--좋아요기능
+create table loves(
+    id int primary KEY AUTO_INCREMENT,
+    usersId int,
+    boardsId int,
+    createdAt TIMESTAMP,
+    UNIQUE uk_loves (usersId,boardsId)
 );
 ```
 

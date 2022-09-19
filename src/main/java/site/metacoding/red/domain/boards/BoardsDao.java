@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import site.metacoding.red.web.dto.response.boards.MainDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
+import site.metacoding.red.web.dto.response.loves.LovesDto;
 
 public interface BoardsDao {
 	public void insert(Boards boards);
@@ -16,5 +17,5 @@ public interface BoardsDao {
 	public void deleteById(Integer id);
 	public void updateToNull(Integer usersId);
 	public PagingDto paging(@Param("page") Integer page,@Param("keyword") String keyword, @Param("row") int row);
-	
+	public LovesDto findByBoardsId(@Param("boardsId") Integer boardsId, @Param("principalId") Integer principalId);
 }

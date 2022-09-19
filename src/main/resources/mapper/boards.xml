@@ -17,7 +17,8 @@
 		LEFT OUTER JOIN
 		users
 		u
-		ON b.usersId=u.id
+		ON
+		b.usersId=u.id
 		<choose>
 			<when test="keyword!=null">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
 			<otherwise></otherwise>
@@ -36,7 +37,8 @@
 		(case currentPage when
 		totalPage-1 then 1 ELSE 0 END) LAST
 		FROM(
-		SELECT COUNT(*) totalCount, CEIL(COUNT(*)/#{row}) totalPage, #{page} currentPage, 0
+		SELECT COUNT(*) totalCount, CEIL(COUNT(*)/#{row}) totalPage, #{page}
+		currentPage, 0
 		first, 0 last FROM boards
 		<choose>
 			<when test="keyword!=null">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
@@ -60,11 +62,19 @@
 		DELETE FROM boards WHERE id=#{id}
 	</delete>
 
-
 	<insert id="insert">
 		INSERT INTO
 		boards(title,content,usersId,createdAt)
 		VALUES(
 		#{title},#{content},#{usersId},now())
 	</insert>
+	<select id="findByBoardsId" resultType="site.metacoding.red.web.dto.response.loves.LovesDto">
+		SELECT if(usersId = #{principalId}, 1, 0) isLoved,
+		(SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) count
+		FROM loves
+		WHERE boardsId = #{boardsId}
+	</select>
+
+
+
 </mapper>

@@ -3,21 +3,19 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<br /> <br />
+	<br /> <br /> <input type="hidden" value="${detailDto.boards.id}" id="id">
 	<div class="d-flex justify-content-between">
-		<h3>${boards.title}</h3>
+		<h3>${detailDto.boards.title}</h3>
 		<div>
-			좋아요 수 : 10<i id="iconHeart" class="fa-regular fa-heart"></i>
+			좋아요 수 : <span id="countLove">${detailDto.lovesDto.count}</span>
+			<i id="iconLove" class='${detailDto.lovesDto.isLoved?"fa-solid ":"fa-regular "}fa-heart my_pointer my_red'></i>
 		</div>
-		<!-- <div>좋아요 수 : 10<i class="fa-solid fa-heart"></i></div> -->
 	</div>
 	<br />
-	<div>${boards.content}</div>
+	<div>${detailDto.boards.content}</div>
 	<hr />
 	<div class="d-flex justify-content-end">
-
-		<input type="hidden" value="${boards.id}" id="id"> <a href="/boards/${boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
-
+		<a href="/boards/${detailDto.boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 		<form>
 			<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
 		</form>
@@ -25,23 +23,46 @@
 	<br /> <input type="hidden" id="page" value="${sessionScope.referer.page}"> <input type="hidden" id="keyword" value="${sessionScope.referer.keyword}">
 </div>
 <script>
-	/** 좋아요기능
-	$("#iconHeart").click((event)=>{
-		let check=$("#iconHeart").hasClass("fa-regular");
-		
-		if(check==true){
-			$("#iconHeart").removeClass("fa-regular");
-			$("#iconHeart").addClass("fa-solid");
-			$("#iconHeart").css("color","red");
+
+	$("#iconLove").click(()=>{
+		let isLovedState=$("#iconLove").hasClass("fa-solid");
+		if(isLovedState){
+			deleteLove();
 		}
 		else{
-			$("#iconHeart").removeClass("fa-solid");
-			$("#iconHeart").addClass("fa-regular");
-			$("#iconHeart").css("color","black");
+			insertLove();
 		}
-
 	});
-	 */
+	
+	function insertLove(){
+		let id = $("#id").val();
+			$.ajax("/boards/"+id+"/loves", {
+				type: "POST",
+				dataType: "json",
+			}).done((res) => {
+				if (res.code == 1) {
+					renderLoves();
+				}else{
+					alert("좋아요 실패했습니다!");
+				}
+			});
+	}
+	function deleteLove(){
+		
+	}
+	
+	function renderLoves(){
+		$("#iconLove").removeClass("fa-regular");
+		$("#iconLove").addClass("fa-solid");
+		$("#iconLove").css("color","red");
+	}
+	function renderCancelLoves(){
+		$("#iconLove").removeClass("fa-solid");
+		$("#iconLove").addClass("fa-regular");
+		$("#iconLove").css("color","black");
+	}
+	
+	 
 </script>
 
 <script src="/js/boards.js"></script>
