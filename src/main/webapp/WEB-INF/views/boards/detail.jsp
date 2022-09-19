@@ -16,20 +16,15 @@
 	<hr />
 	<div class="d-flex justify-content-end">
 
-		<input type="hidden" value="${boards.id}" id="id"> <a
-			href="/boards/updateForm/${boards.id}" class="btn btn-warning">수정하러가기</a>
+		<input type="hidden" value="${boards.id}" id="id"> <a href="/boards/${boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 
 		<form>
 			<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
 		</form>
 	</div>
-	<br />
+	<br /> <input type="hidden" id="page" value="${sessionScope.referer.page}"> <input type="hidden" id="keyword" value="${sessionScope.referer.keyword}">
 </div>
 <script>
-
-	
-	
-	
 	/** 좋아요기능
 	$("#iconHeart").click((event)=>{
 		let check=$("#iconHeart").hasClass("fa-regular");

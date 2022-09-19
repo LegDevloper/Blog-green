@@ -2,8 +2,6 @@ package site.metacoding.red.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -26,9 +24,9 @@ public class BoardsService {
 			page = 0;
 		}
 		
-		int startNum = page * 5;
-		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword);
-		PagingDto pagingDto = boardsDao.paging(page, keyword);
+		int startNum = page * PagingDto.ROW;
+		List<MainDto> boardsList = boardsDao.findAll(startNum, keyword,PagingDto.ROW);
+		PagingDto pagingDto = boardsDao.paging(page, keyword,PagingDto.ROW);
 	
 		pagingDto.makeBlockInfo(keyword);
 		pagingDto.setMainDtos(boardsList);

@@ -1,6 +1,8 @@
 package site.metacoding.red.web;
 
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
@@ -30,20 +33,21 @@ public class BoardsController {
 	
 	//========delete
 	@DeleteMapping("/boards/{id}")
-	public @ResponseBody CMRespDto<?> deleteById(@PathVariable Integer id,Model model) {
+	public @ResponseBody CMRespDto<?> deleteById(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
-		model.addAttribute("boards",id);
+		//model.addAttribute("boards",id);
 		return new CMRespDto<>(1,"삭제성공",null);
 	}
 	
 	
 	//=========update
-	@GetMapping("/boards/updateForm/{id}")
+	@GetMapping("/boards/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
-		model.addAttribute("boards",id);
+		Boards boards = boardsService.게시글상세보기(id);
+		model.addAttribute("boards",boards);
 		return "/boards/updateForm";
 	}
-	@PutMapping("boards/update/{id}")
+	@PutMapping("boards/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1,"수정성공",null);
@@ -69,6 +73,11 @@ public class BoardsController {
 	public String boardsList(Integer page, String keyword, Model model) {
 		PagingDto pagingdto = boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("pagingdto", pagingdto);
+		
+		Map<String,Object> referer = new HashMap<>();
+		referer.put("page", pagingdto.getCurrentPage());
+		referer.put("keyword", pagingdto.getKeyword());
+		session.setAttribute("referer", referer);
 		return "/boards/main";
 	}
 	@GetMapping("/boards/{id}")
