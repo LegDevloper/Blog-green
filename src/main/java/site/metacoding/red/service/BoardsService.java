@@ -48,15 +48,17 @@ public class BoardsService {
 
 	}
 
+
 	public DetailDto 게시글상세보기(Integer id, Integer principalId) {
 	      System.out.println("게시글 id : "+id);
 	      System.out.println("사용자 아이디 : "+principalId);
 	      Boards boardsPS = boardsDao.findById(id);
 	      List<LovesDto> lovesDtoList = boardsDao.findByBoardsId(id, principalId);   
-	      if(lovesDtoList==null) {
-	    	  lovesDtoList = new ArrayList<>();
-	    	  lovesDtoList.get(0).setCount(0);
-	    	  lovesDtoList.get(0).setIsLoved(false);
+	      if(lovesDtoList.isEmpty()) {    	 
+	    	  LovesDto lovesDto = new LovesDto();
+	    	  lovesDto.setCount(0);
+	    	  lovesDto.setIsLoved(false);
+	    	  lovesDtoList.add(lovesDto);
 	      }
 	      return new DetailDto(boardsPS, lovesDtoList);
 	   }
