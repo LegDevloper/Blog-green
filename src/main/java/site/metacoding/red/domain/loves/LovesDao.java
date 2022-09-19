@@ -12,5 +12,4 @@ public interface LovesDao {
 	public Loves findById(Integer id);
 	public void update(Loves loves);
 	public void deleteById(Integer id);
-	public LovesDto findByBoardsId(@Param("principalId") Integer principalId, @Param("boardsId") Integer boardsId);
 }

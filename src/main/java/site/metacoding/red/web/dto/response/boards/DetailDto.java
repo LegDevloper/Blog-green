@@ -17,5 +17,5 @@ import site.metacoding.red.web.dto.response.loves.LovesDto;
 @Getter
 public class DetailDto {
 	private Boards boards;
-	private LovesDto lovesDto;
+	private List<LovesDto> lovesDto;
 }

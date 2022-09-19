@@ -1,5 +1,6 @@
 package site.metacoding.red.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -51,13 +52,13 @@ public class BoardsService {
 	      System.out.println("게시글 id : "+id);
 	      System.out.println("사용자 아이디 : "+principalId);
 	      Boards boardsPS = boardsDao.findById(id);
-	      LovesDto lovesDto = boardsDao.findByBoardsId(id, principalId);   
-	      if(lovesDto == null) {
-	         lovesDto = new LovesDto();
-	         lovesDto.setCount(0);
-	         lovesDto.setIsLoved(false);
+	      List<LovesDto> lovesDtoList = boardsDao.findByBoardsId(id, principalId);   
+	      if(lovesDtoList==null) {
+	    	  lovesDtoList = new ArrayList<>();
+	    	  lovesDtoList.get(0).setCount(0);
+	    	  lovesDtoList.get(0).setIsLoved(false);
 	      }
-	      return new DetailDto(boardsPS, lovesDto);
+	      return new DetailDto(boardsPS, lovesDtoList);
 	   }
 
 	public Boards 게시글상세보기(Integer id) {
