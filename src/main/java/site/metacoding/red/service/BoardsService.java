@@ -50,13 +50,21 @@ public class BoardsService {
 	public DetailDto 게시글상세보기(Integer id, Integer principalId) {
 		Boards boardsPS = boardsDao.findById(id);
 		List<LovesDto> lovesDtoList = boardsDao.findByBoardsId(id, principalId);
+		Boolean isUser=false;
 		if (lovesDtoList.isEmpty()) {
-			LovesDto lovesDto = new LovesDto();
+			LovesDto lovesDto=new LovesDto();
 			lovesDto.setCount(0);
 			lovesDto.setIsLoved(false);
+			lovesDto.setUsersId(null);
+	
 			lovesDtoList.add(lovesDto);
 		}
-		return new DetailDto(boardsPS, lovesDtoList);
+		for(int i=0;i<lovesDtoList.size();i++) {
+			if(lovesDtoList.get(i).getUsersId()==principalId)
+				isUser=true;
+		}
+
+		return new DetailDto(boardsPS, lovesDtoList,isUser);
 	}
 
 	public Boards 게시글상세보기(Integer id) {

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LovesDto {
+	private Integer usersId;
 	private Boolean isLoved;
 	private Integer count;
 	

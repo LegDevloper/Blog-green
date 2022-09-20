@@ -18,4 +18,5 @@ import site.metacoding.red.web.dto.response.loves.LovesDto;
 public class DetailDto {
 	private Boards boards;
 	private List<LovesDto> lovesDto;
+	private Boolean isUser;
 }

@@ -33,7 +33,7 @@ public class BoardsController {
 	private final HttpSession session;
 
 	// ========loves
-	// 어떤게시글 , 누가 좋아하는지
+	// 좋아요
 	@PostMapping("/boards/{id}/loves") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
@@ -46,6 +46,7 @@ public class BoardsController {
 	@PostMapping("/boards/{id}/lovesCancle") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
+		
 		Integer usersId = principal.getId();
 		boardsService.좋아요취소(usersId, id);
 		return new CMRespDto<>(1, "좋아요취소 성공", null);
@@ -103,6 +104,7 @@ public class BoardsController {
 	@GetMapping("/boards/{id}")
 	public String getBoardDetail(@PathVariable Integer id, Model model) {
 		Users principal = (Users) session.getAttribute("principal");
+		
 		if (principal == null) {
 			model.addAttribute("detailDto", boardsService.게시글상세보기(id, null));
 		} else {

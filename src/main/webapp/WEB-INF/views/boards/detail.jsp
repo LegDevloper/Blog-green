@@ -8,7 +8,7 @@
 		<h3>${detailDto.boards.title}</h3>
 		<div>
 			좋아요 수 : <span id="countLove">${detailDto.lovesDto.get(0).count}</span>
-			<i id="iconLove" class='${detailDto.lovesDto.get(0).isLoved?"fa-solid ":"fa-regular "}fa-heart my_pointer my_red'></i>
+			<i id="iconLove" class='${detailDto.isUser?"fa-solid ":"fa-regular "}fa-heart my_pointer my_red'></i>
 		</div>
 	</div>
 	<br />
@@ -50,7 +50,6 @@
 			});
 	}
 	function deleteLove(){
-
 		let id = $("#id").val();
 		$.ajax("/boards/"+id+"/lovesCancle", {
 			type: "POST",
