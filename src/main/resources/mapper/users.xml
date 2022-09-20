@@ -9,6 +9,7 @@
 		createdAt)
 		VALUES(#{username},
 		#{password}, #{email}, NOW())
+	
 	</insert>
 	<select id="findByUsername" resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE username = #{username}

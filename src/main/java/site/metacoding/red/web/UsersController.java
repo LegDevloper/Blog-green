@@ -85,7 +85,7 @@ public class UsersController {
 	}
 
 	//=============logout
-	@GetMapping("s/logout")
+	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/loginForm";
@@ -103,7 +103,7 @@ public class UsersController {
 
 
 	// ==============update
-	@PutMapping("/s/users/{id}")
+	@PutMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
 		session.setAttribute("principal", usersPS); // 세션동기화(덮어쓴다)
@@ -113,7 +113,7 @@ public class UsersController {
 
 	// 인증필요
 	// =================delete
-	@DeleteMapping("/s/users/{id}")
+	@DeleteMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();

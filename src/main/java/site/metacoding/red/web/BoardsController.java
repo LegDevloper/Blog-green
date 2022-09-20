@@ -24,7 +24,7 @@ import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
 import site.metacoding.red.web.dto.response.CMRespDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
-import site.metacoding.red.web.dto.response.loves.LovesDto;
+
 
 @RequiredArgsConstructor
 @Controller
@@ -33,27 +33,30 @@ public class BoardsController {
 	private final HttpSession session;
 
 	// ========loves
-	@PostMapping("/s/boards/{id}/loves") // REST API 주소매핑방식
+	@PostMapping("/s/api/boards/{id}/loves") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(id, principal.getId());
 		// Loves lovesPS = boardsService.좋아요(loves);
 		boardsService.좋아요(loves);
+		System.out.println("좋아요클릭");
 		return new CMRespDto<>(1, "좋아요성공", null);
+		
 	}
 
 	//좋아요 취소
-	@DeleteMapping("/s/boards/{id}/lovesCancle") // REST API 주소매핑방식
+	@DeleteMapping("/s/api/boards/{id}/lovesCancle") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		
 		Integer usersId = principal.getId();
 		boardsService.좋아요취소(usersId, id);
+		System.out.println("좋아요취소");
 		return new CMRespDto<>(1, "좋아요취소 성공", null);
 	}
 	
 
-	@DeleteMapping("s/boards/{id}")
+	@DeleteMapping("s/api/boards/{id}")
 	public @ResponseBody CMRespDto<?> deleteById(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
 		// model.addAttribute("boards",id);
@@ -68,7 +71,7 @@ public class BoardsController {
 		return "/boards/updateForm";
 	}
 
-	@PutMapping("/s/boards/{id}")
+	@PutMapping("/s/api/boards/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1, "수정성공", null);
@@ -82,7 +85,7 @@ public class BoardsController {
 	}
 	
 
-	@PostMapping("/s/boards")
+	@PostMapping("/s/api/boards")
 	public @ResponseBody CMRespDto<?> write(@RequestBody WriteDto writeDto) {
 		Users principal = (Users) session.getAttribute("principal");
 		boardsService.게시글쓰기(writeDto, principal);

@@ -7,6 +7,7 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO loves(usersId, boardsId, createdAt)
 		VALUES(#{usersId}, #{boardsId}, now())
+		ON DUPLICATE KEY UPDATE usersId=#{usersId}, boardsId=#{boardsId}
 	</insert>
 	<select id="findById" resultType="site.metacoding.red.domain.loves.Loves">
 		SELECT * FROM loves WHERE id = #{id}

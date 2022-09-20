@@ -32,7 +32,7 @@
 					<c:otherwise>
 						<li class="nav-item"><a class="nav-link" href="/s/boards/writeForm">글쓰기</a></li>
 						<li class="nav-item"><a class="nav-link" href="/s/users/${principal.id}">회원정보보기</a></li>
-						<li class="nav-item"><a class="nav-link" href="/s/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
 					</c:otherwise>
 
 				</c:choose>
