@@ -20,7 +20,7 @@ function save() {
 		title: $("#title").val(),
 		content: $("#content").val()
 	};
-	$.ajax("/boards", {
+	$.ajax("/s/boards", {
 		type: "POST",
 		dataType: "json",
 		data: JSON.stringify(data),
@@ -44,7 +44,7 @@ function update() {
 		title: $("#title").val(),
 		content: $("#content").val()
 	}
-	$.ajax(`/boards/${id}`, {
+	$.ajax(`/s/boards/${id}`, {
 		type: "PUT",
 		dataType: "json",
 		data: JSON.stringify(data),
@@ -64,7 +64,7 @@ function del() {
 	let id = $("#id").val();
 	let page = $("#page").val();
 	let keyword=$("#keyword").val();
-	$.ajax(`/boards/${id}`, {
+	$.ajax(`/s/boards/${id}`, {
 		type: "DELETE",
 		dataType: "json"
 	}).done((res) => {

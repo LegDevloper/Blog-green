@@ -15,7 +15,7 @@
 	<div>${detailDto.boards.content}</div>
 	<hr />
 	<div class="d-flex justify-content-end">
-		<a href="/boards/${detailDto.boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
+		<a href="/s/boards/${detailDto.boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 		<form>
 			<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
 		</form>
@@ -36,7 +36,7 @@
 	
 	function insertLove(){
 		let id = $("#id").val();
-			$.ajax("/boards/"+id+"/loves", {
+			$.ajax("/s/boards/"+id+"/loves", {
 				type: "POST",
 				dataType: "json",
 			}).done((res) => {
@@ -51,8 +51,8 @@
 	}
 	function deleteLove(){
 		let id = $("#id").val();
-		$.ajax("/boards/"+id+"/lovesCancle", {
-			type: "POST",
+		$.ajax("/s/boards/"+id+"/lovesCancle", {
+			type: "DELETE",
 			dataType: "json",
 		}).done((res) => {
 			if (res.code == 1) {

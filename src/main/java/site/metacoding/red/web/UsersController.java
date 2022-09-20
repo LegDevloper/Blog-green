@@ -30,8 +30,6 @@ public class UsersController {
 	private final HttpSession session;
 	private final HttpServletResponse response;
 
-	
-
 	// 중복체크 컨트롤러
 	@GetMapping("/users/usernameSameCheck")
 	public @ResponseBody CMRespDto<Boolean> usernameSameCheck(String username) { // class응답하면 json
@@ -55,65 +53,71 @@ public class UsersController {
 	@GetMapping("/loginForm")
 	public String loginForm(Model model, HttpServletRequest request) { // 쿠키(cookie)
 		Cookie[] cookies = request.getCookies();
-		for(Cookie cookie : cookies) {
-			if(cookie.getName().equals("username")) {
-				model.addAttribute("username",cookie.getValue());
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("username")) {
+				model.addAttribute("username", cookie.getValue());
 			}
 		}
 		return "users/loginForm";
 	}
+	
+	//====================login
 	@PostMapping("/login")
 	public @ResponseBody CMRespDto<?> login(@RequestBody LoginDto loginDto) {
-	
-		if(loginDto.isRemember()) {
-			Cookie cookie = new Cookie("username",loginDto.getUsername());
-			cookie.setMaxAge(60*60*24); //쿠키가 저장되있는 시간
+
+		if (loginDto.isRemember()) {
+			Cookie cookie = new Cookie("username", loginDto.getUsername());
+			cookie.setMaxAge(60 * 60 * 24); // 쿠키가 저장되있는 시간
 			response.addCookie(cookie);
-		
-		}else{
-			Cookie cookie = new Cookie("usernmae",null);
+
+		} else {
+			Cookie cookie = new Cookie("usernmae", null);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
 		Users principal = usersService.로그인(loginDto);
 
 		if (principal == null) { // 로그인이 안됐다면
-			return new CMRespDto<>(-1,"로그인 실패",null);
+			return new CMRespDto<>(-1, "로그인 실패", null);
 		}
 		session.setAttribute("principal", principal);
-		return new CMRespDto<>(1,"로그인성공",null);
+		return new CMRespDto<>(1, "로그인성공", null);
 	}
 
-	// 로그아웃 컨트롤러
-	@GetMapping("/logout")
+	//=============logout
+	@GetMapping("s/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/loginForm";
 	}
 
+	// 인증필요(session이 있는지 확인)
 	// 회원정보 보는 컨트롤러
-	@GetMapping("/users/{id}")
+	@GetMapping("/s/users/{id}")
 	public String updateForm(@PathVariable Integer id, Model model) {
+
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users", usersPS);
-
 		return "users/updateForm"; // updateForm만들기(회원탈퇴 버튼을 만든다)
 	}
 
-	
-	@PutMapping("/users/{id}")
+
+	// ==============update
+	@PutMapping("/s/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
-		session.setAttribute("principal", usersPS); //세션동기화(덮어쓴다)
+		session.setAttribute("principal", usersPS); // 세션동기화(덮어쓴다)
 
-		return new CMRespDto<>(1,"회원수정성공",null);
+		return new CMRespDto<>(1, "회원수정성공", null);
 	}
 
-	@DeleteMapping("/users/{id}")
+	// 인증필요
+	// =================delete
+	@DeleteMapping("/s/users/{id}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();
-		return new CMRespDto<>(1,"탈퇴완료",null);
+		return new CMRespDto<>(1, "탈퇴완료", null);
 	}
 
 }

@@ -33,8 +33,7 @@ public class BoardsController {
 	private final HttpSession session;
 
 	// ========loves
-	// 좋아요
-	@PostMapping("/boards/{id}/loves") // REST API 주소매핑방식
+	@PostMapping("/s/boards/{id}/loves") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(id, principal.getId());
@@ -42,8 +41,9 @@ public class BoardsController {
 		boardsService.좋아요(loves);
 		return new CMRespDto<>(1, "좋아요성공", null);
 	}
+
 	//좋아요 취소
-	@PostMapping("/boards/{id}/lovesCancle") // REST API 주소매핑방식
+	@DeleteMapping("/s/boards/{id}/lovesCancle") // REST API 주소매핑방식
 	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		
@@ -52,35 +52,37 @@ public class BoardsController {
 		return new CMRespDto<>(1, "좋아요취소 성공", null);
 	}
 	
-	// ========delete
-	@DeleteMapping("/boards/{id}")
+
+	@DeleteMapping("s/boards/{id}")
 	public @ResponseBody CMRespDto<?> deleteById(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
 		// model.addAttribute("boards",id);
 		return new CMRespDto<>(1, "삭제성공", null);
 	}
+	
 
-	// =========update
-	@GetMapping("/boards/{id}/updateForm")
+	@GetMapping("/s/boards/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Boards boards = boardsService.게시글상세보기(id);
 		model.addAttribute("boards", boards);
 		return "/boards/updateForm";
 	}
 
-	@PutMapping("boards/{id}")
+	@PutMapping("/s/boards/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1, "수정성공", null);
 	}
-
+	
+	
 	// ==========write
-	@GetMapping("/boards/writeForm")
+	@GetMapping("/s/boards/writeForm")
 	public String writeForm() {
 		return "/boards/writeForm";
 	}
+	
 
-	@PostMapping("/boards")
+	@PostMapping("/s/boards")
 	public @ResponseBody CMRespDto<?> write(@RequestBody WriteDto writeDto) {
 		Users principal = (Users) session.getAttribute("principal");
 		boardsService.게시글쓰기(writeDto, principal);

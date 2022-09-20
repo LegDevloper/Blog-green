@@ -107,7 +107,7 @@ function login() {
 function resign() {
 	let id = $("#id").val();
 
-	$.ajax(`/users/${id}`, {
+	$.ajax(`/s/users/${id}`, {
 		type: "DELETE",
 		dataType: "json",
 	}).done((res) => {
@@ -129,7 +129,7 @@ function update() {
 
 	let id = $("#id").val();
 
-	$.ajax(`/users/${id}`, {
+	$.ajax(`/s/users/${id}`, {
 		type: "PUT",
 		dataType: "json",
 		data: JSON.stringify(data), //data는 js오브젝트기 때문에 json으로 변경후 전송
