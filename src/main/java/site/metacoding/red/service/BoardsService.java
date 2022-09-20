@@ -1,6 +1,5 @@
 package site.metacoding.red.service;
 
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -24,8 +23,8 @@ public class BoardsService {
 	private final BoardsDao boardsDao;
 	private final LovesDao lovesDao;
 
-	public void 좋아요취소(Integer id) {
-		lovesDao.deleteById(id);
+	public void 좋아요취소(Integer usersId, Integer boardsId) {
+		lovesDao.deleteById(usersId, boardsId);
 	}
 
 	public void 좋아요(Loves loves) {
@@ -48,20 +47,17 @@ public class BoardsService {
 
 	}
 
-
 	public DetailDto 게시글상세보기(Integer id, Integer principalId) {
-	      System.out.println("게시글 id : "+id);
-	      System.out.println("사용자 아이디 : "+principalId);
-	      Boards boardsPS = boardsDao.findById(id);
-	      List<LovesDto> lovesDtoList = boardsDao.findByBoardsId(id, principalId);   
-	      if(lovesDtoList.isEmpty()) {    	 
-	    	  LovesDto lovesDto = new LovesDto();
-	    	  lovesDto.setCount(0);
-	    	  lovesDto.setIsLoved(false);
-	    	  lovesDtoList.add(lovesDto);
-	      }
-	      return new DetailDto(boardsPS, lovesDtoList);
-	   }
+		Boards boardsPS = boardsDao.findById(id);
+		List<LovesDto> lovesDtoList = boardsDao.findByBoardsId(id, principalId);
+		if (lovesDtoList.isEmpty()) {
+			LovesDto lovesDto = new LovesDto();
+			lovesDto.setCount(0);
+			lovesDto.setIsLoved(false);
+			lovesDtoList.add(lovesDto);
+		}
+		return new DetailDto(boardsPS, lovesDtoList);
+	}
 
 	public Boards 게시글상세보기(Integer id) {
 		return boardsDao.findById(id);

@@ -50,6 +50,20 @@
 			});
 	}
 	function deleteLove(){
+
+		let id = $("#id").val();
+		$.ajax("/boards/"+id+"/lovesCancle", {
+			type: "POST",
+			dataType: "json",
+		}).done((res) => {
+			if (res.code == 1) {
+				renderCancelLoves();
+				let count = $("#countLove").text();
+				$("#countLove").text(Number(count)-1);
+			}else{
+				alert("좋아요 실패했습니다!");
+			}
+		});
 		
 	}
 	

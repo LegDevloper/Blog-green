@@ -42,7 +42,15 @@ public class BoardsController {
 		boardsService.좋아요(loves);
 		return new CMRespDto<>(1, "좋아요성공", null);
 	}
-
+	//좋아요 취소
+	@PostMapping("/boards/{id}/lovesCancle") // REST API 주소매핑방식
+	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id) {
+		Users principal = (Users) session.getAttribute("principal");
+		Integer usersId = principal.getId();
+		boardsService.좋아요취소(usersId, id);
+		return new CMRespDto<>(1, "좋아요취소 성공", null);
+	}
+	
 	// ========delete
 	@DeleteMapping("/boards/{id}")
 	public @ResponseBody CMRespDto<?> deleteById(@PathVariable Integer id) {

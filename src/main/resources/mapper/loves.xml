@@ -15,7 +15,7 @@
 		SELECT * FROM loves;
 	</select>
 	<delete id="deleteById">
-		DELETE FROM loves WHERE id=#{id}
+		DELETE FROM loves where usersId=#{usersId} AND boardsId=#{boardsId};
 	</delete>
 	<update id="update">
 	</update>
