@@ -36,7 +36,7 @@ public class Loginintercepter implements HandlerInterceptor {
 
 		}
 
-		System.out.println("==============Intercepter 실행==============");
+		System.out.println("==============로그인잘댐 실행==============");
 		// return HandlerInterceptor.super.preHandle(request, response, handler);
 		return true;
 	}

@@ -14,7 +14,7 @@
 			<input id="password" type="password" class="form-control" placeholder="Enter password" value="${users.password}">
 		</div>
 		<div class="mb-3">
-			<input id="email" type="email" class="form-control" placeholder="Enter email" value="${users.email}">
+			<input id="email" type="email" class="form-control" placeholder="Enter email" value="${users.email}" >
 		</div>
 		<button id="btnUpdate" type="button" class="btn btn-primary">수정하기</button>
 		<button id="btnDelete" type="button" class="btn btn-danger">회원탈퇴</button>

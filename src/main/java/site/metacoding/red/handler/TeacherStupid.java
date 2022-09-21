@@ -24,10 +24,11 @@ public class TeacherStupid implements HandlerInterceptor {
 		
 		if (inputData.contains("바보")) {
 			ObjectMapper om = new ObjectMapper();
-			String s = om.writeValueAsString(inputData);
+			
 			response.setContentType("application/json; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			CMRespDto<?> dto = new CMRespDto<>(-1, "욕하지마", null);
+			String s = om.writeValueAsString(dto);
 			out.println(s);
 			return false;
 		}

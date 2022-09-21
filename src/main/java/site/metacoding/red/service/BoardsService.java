@@ -10,6 +10,7 @@ import site.metacoding.red.domain.boards.BoardsDao;
 import site.metacoding.red.domain.loves.Loves;
 import site.metacoding.red.domain.loves.LovesDao;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.handler.ex.MyException;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
 import site.metacoding.red.web.dto.response.boards.DetailDto;
@@ -68,15 +69,24 @@ public class BoardsService {
 		return new DetailDto(boardsPS, lovesDtoList,isUser);
 	}
 
+	//
 	public Boards 게시글상세보기(Integer id) {
-		return boardsDao.findById(id);
+		Boards boards = boardsDao.findById(id);
+		if(boards==null) {
+			throw new MyException(id+"의 게시글을 찾을 수 없습니다.");
+		}
+		
+		return boards;
 	}
 
 	public void 게시글수정하기(Integer id, UpdateDto updateDto) {
 		Boards boardsPS = boardsDao.findById(id);
+		if(boardsPS == null) {
+			throw new RuntimeException(id+"의 게시글을 찾을 수 없습니다."); //DS catch로 바로 들어감.
+		}
 		boardsPS.updateBoards(updateDto);
 		boardsDao.update(boardsPS);
-	} // DTO추가
+	} 
 
 	public void 게시글삭제하기(Integer id) {
 		boardsDao.deleteById(id); // 핵심로직

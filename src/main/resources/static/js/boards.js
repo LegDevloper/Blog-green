@@ -69,6 +69,7 @@ function renderCancelLoves() {
 }
 /** 글쓰기 기능 */
 function save() {
+	
 	let data = {
 		title: $("#title").val(),
 		content: $("#content").val()
@@ -108,7 +109,10 @@ function update() {
 		if (res.code == 1) {
 			alert("게시글 수정 완료!");
 			location.href = `/boards/${id}`;
+		}else{
+			alert("업데이트 실패");
 		}
+		
 
 	});
 }
