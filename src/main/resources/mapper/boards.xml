@@ -67,6 +67,7 @@
 		boards(title,content,usersId,createdAt)
 		VALUES(
 		#{title},#{content},#{usersId},now())
+
 	</insert>
 	<select id="findByBoardsId" resultType="site.metacoding.red.web.dto.response.loves.LovesDto">
 		SELECT usersId, if(usersId = #{principalId}, 1, 0) isLoved,

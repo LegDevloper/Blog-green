@@ -5,11 +5,13 @@
 <mapper namespace="site.metacoding.red.domain.users.UsersDao">
 
 	<insert id="insert">
-		INSERT INTO users(username, password, email,
+		INSERT IGNORE INTO users(username, password, email,
 		createdAt)
 		VALUES(#{username},
-		#{password}, #{email}, NOW())
-	
+		#{password}, #{email},
+		NOW())
+	<!-- ON DUPLICATE KEY UPDATE username=#{username} -->
+
 	</insert>
 	<select id="findByUsername" resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE username = #{username}
@@ -17,7 +19,7 @@
 	<select id="findById" resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE id = #{id}
 	</select>
-	<select id= "findAll" resultType="site.metacoding.red.domain.users.Users">
+	<select id="findAll" resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users;
 	</select>
 	<delete id="deleteById">
@@ -29,5 +31,5 @@
 	<update id="update">
 		UPDATE users SET password=#{password}, email=#{email} WHERE id=#{id}
 	</update>
-	
+
 </mapper>
